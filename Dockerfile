@@ -2,12 +2,12 @@ ARG COMPOSE_VERSION=1.16.1
 FROM docker/compose:${COMPOSE_VERSION}
 LABEL maintainer="Antonis Kalipetis <akalipeits@gmail.com>"
 
-ARG DOCKER_VERSION=17.07.0-ce
+ARG DOCKER_VERSION=17.10.0-ce
 ARG DOCKER_CHANNEL=edge
 ENV DOCKER_CHANNEL=${DOCKER_CHANNEL} \
     DOCKER_VERSION=${DOCKER_VERSION}
 
-ADD cj /usr/src/bin/cj
+ADD cj /usr/local/bin/cj
 
 # Install Docker binary
 RUN set -ex; \
