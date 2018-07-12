@@ -4,18 +4,18 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://docker:2375
     environment:
-      - TAG=${DRONE_TAG}
+      - DOCKER_VERSION=18.03.1-ce
+      - COMPOSE_VERSION=1.21.2
+      - KUBECTL_VERSION=v1.10.3
     commands:
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-      - docker build --no-cache --tag=akalipetis/ci:${TAG} .
-      - docker push akalipetis/ci:${TAG}
+      - docker build --build-arg=COMPOSE_VERSION=${COMPOSE_VERSION} --build-arg=DOCKER_VERSION=${DOCKER_VERSION} --build-arg=KUBECTL_VERSION=${KUBECTL_VERSION} --no-cache --tag=akalipetis/ci:${DOCKER_VERSION}-${COMPOSE_VERSION}-${KUBECTL_VERSION} .
+      - docker push akalipetis/ci:${DOCKER_VERSION}-${COMPOSE_VERSION}-${KUBECTL_VERSION}
     secrets:
       - source: docker-hub-username
         target: docker_username
       - source: docker-hub-password
         target: docker_password
-    when:
-      event: tag
 
 services:
   docker:
