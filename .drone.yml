@@ -1,0 +1,24 @@
+pipeline:
+  build:
+    image: docker:18.03.1-ce
+    environment:
+      - DOCKER_HOST=tcp://docker:2375
+    commands:
+      - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+      - docker build --no-cache --tag=akalipetis/ci:${DRONE_TAG} ./
+      - docker push akalipetis/ci:${DRONE_TAG}
+    secrets:
+      - source: docker-hub-username
+        target: docker_username
+      - source: docker-hub-password
+        target: docker_password
+    when:
+      event: tag
+
+services:
+  docker:
+    image: docker:18.03.1-ce-dind
+    command: [ "--storage-driver=aufs", "--tls=false" ]
+    privileged: true
+    volumes:
+      - /mnt/drone-dind:/var/lib/docker
