@@ -5,12 +5,11 @@ LABEL maintainer="Antonis Kalipetis <akalipeits@gmail.com>"
 ARG DOCKER_VERSION=18.03.1-ce
 ARG DOCKER_CHANNEL=stable
 ARG KUBECTL_VERSION=v1.10.3
+ARG CJ_VERSION=v0.1.0
 ENV DOCKER_CHANNEL=${DOCKER_CHANNEL} \
     DOCKER_VERSION=${DOCKER_VERSION}
 
-ADD cj /usr/local/bin/cj
-
-# Install Docker binary
+# Install Docker binary, cj and kubectl
 RUN set -ex; \
 	apk add --no-cache \
 		curl \
@@ -33,6 +32,9 @@ RUN set -ex; \
 	docker -v; \
 	curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl; \
 	chmod +x ./kubectl; \
-	mv ./kubectl /usr/local/bin
+	mv ./kubectl /usr/local/bin; \
+	curl -LO https://github.com/2hog/cj/releases/download/$CJ_VERSION/cj-linux; \
+	chmod +x ./cj-linux; \
+	mv ./cj-linux /usr/local/bin/cj
 
 ENTRYPOINT []

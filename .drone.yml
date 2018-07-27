@@ -6,9 +6,10 @@ pipeline:
       - DOCKER_VERSION=18.03.1-ce
       - COMPOSE_VERSION=1.21.2
       - KUBECTL_VERSION=v1.10.3
+      - CJ_VERSION=v0.1.0
     commands:
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-      - docker build --build-arg=COMPOSE_VERSION=$COMPOSE_VERSION --build-arg=DOCKER_VERSION=$DOCKER_VERSION --build-arg=KUBECTL_VERSION=$KUBECTL_VERSION --no-cache --tag=akalipetis/ci:$DOCKER_VERSION-$COMPOSE_VERSION-$KUBECTL_VERSION .
+      - docker build --build-arg=COMPOSE_VERSION=$COMPOSE_VERSION --build-arg=DOCKER_VERSION=$DOCKER_VERSION --build-arg=KUBECTL_VERSION=$KUBECTL_VERSION --build-arg=CJ_VERSION=$CJ_VERSION --no-cache --tag=akalipetis/ci:$DOCKER_VERSION-$COMPOSE_VERSION-$KUBECTL_VERSION .
       - docker push akalipetis/ci:$DOCKER_VERSION-$COMPOSE_VERSION-$KUBECTL_VERSION
     secrets:
       - source: docker-hub-username
